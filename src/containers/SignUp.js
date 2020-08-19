@@ -1,30 +1,24 @@
 import React, {Component} from 'react';
 
+const initialState = {email: '', password: '', fullName: '', type: 'admin', bio: ''};
+
 class SignUp extends Component {
     // state = {
     //  bu uslubda state yaratsa ham bo'laveradi
     // }
     constructor(props) {
         super(props);
-        this.state = {
-            fullName: '',
-            email: '',
-            password: '',
-            type: 'customer',
-        }
+        this.state = {initialState}
     }
+
 
     inputHandler = e => {
         e.preventDefault();
         console.log(e.target);
         const {name, value} = e.target;
-        if (name === 'fullName'){
-            this.setState({fullName: value})
-        }else if (name === 'email'){
-            this.setState({email: value});
-        }else{
-            this.setState({password: value});
-        }
+
+        this.setState({[name]: value})
+
     }
 
     formHandler = e => {
@@ -32,8 +26,12 @@ class SignUp extends Component {
         console.log('Form Submited')
     }
 
+    resetHandler = () => {
+        this.setState(initialState);
+    }
+
     render() {
-        const {fullName, email, password} = this.state;
+        const {fullName, email, password, type, bio} = this.state;
         console.log(this.state)
 
         return (
@@ -50,6 +48,8 @@ class SignUp extends Component {
                            onChange={this.inputHandler}
                        />
                    </p>
+                    <h4>{fullName}</h4>
+
                    <p>
                        <label htmlFor="">Email</label>
                        <input
@@ -60,6 +60,8 @@ class SignUp extends Component {
                            onChange={this.inputHandler}
                        />
                    </p>
+                    <h4>{email}</h4>
+
                    <p>
                        <label htmlFor="">Password</label>
                        <input
@@ -70,8 +72,20 @@ class SignUp extends Component {
                            onChange={this.inputHandler}
                        />
                    </p>
+                    <h4>{password}</h4>
+
+                    <p>
+                        <select name="type" onChange={this.inputHandler} value={type}>
+                            <option value="customer">Customer</option>
+                            <option value="seller">Seller</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </p>
+
+                    <textarea name="bio" value={bio} onChange={this.inputHandler}/>
+
                     <button type="submit">Sign Up </button>
-                    <button type="reset">X</button>
+                    <button type="reset" onClick={this.resetHandler}>X</button>
                 </form>
             </div>
         );
